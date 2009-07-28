@@ -2,7 +2,7 @@
 # require_dependency 'application'
 
 class Globalize2Extension < Radiant::Extension
-  version "1.0"
+  version "0.1"
   description "Translate content in Radiant CMS using the Globalize2 Rails plugin."
   url "http://blog.aissac.ro/radiant/globalize2-extension/"
   
@@ -12,7 +12,17 @@ class Globalize2Extension < Radiant::Extension
   #   end
   # end
   
+  GLOBALIZABLE_CONTENT = {
+    Page     => [:title, :slug, :breadcrumb, :description, :keywords],
+    PagePart => [:content],
+    Layout   => [:content],
+    Snippet  => [:content]
+  }
+  
   def activate
+    GLOBALIZABLE_CONTENT.each do |model, columns|
+      model.send(:translates, *columns)
+    end
     # admin.tabs.add "Globalize2", "/admin/globalize2", :after => "Layouts", :visibility => [:all]
   end
   
