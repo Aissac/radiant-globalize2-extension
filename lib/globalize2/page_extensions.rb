@@ -7,7 +7,7 @@ module Globalize2
     end
     
     def unique_slug
-      if self.class.find(:first, :joins => "INNER JOIN page_translations on page_translations.page_id = pages.id", :conditions => ["pages.parent_id = ? AND page_translations.slug = ? AND page_translations.locale = ?", parent_id, slug, self.class.locale])
+      if self.class.find(:first, :joins => "INNER JOIN page_translations on page_translations.page_id = pages.id", :conditions => ["pages.parent_id = ? AND page_translations.slug = ? AND page_translations.locale = ? AND page_translations.page_id <> ?", parent_id, slug, self.class.locale, id])
         errors.add('slug', "must be unique")
       end
     end
