@@ -34,6 +34,9 @@ class Globalize2Extension < Radiant::Extension
     admin.layout.index.add :top, 'admin/shared/change_locale_admin'
     admin.snippet.index.add :top, 'admin/shared/change_locale_admin'
     
+    admin.page.index.add :sitemap_head, 'admin/shared/globalize_th'
+    admin.page.index.add :node, 'admin/shared/globalize_td'
+    
     I18n.default_locale = GLOBALIZE_BASE_LANGUAGE
     
     Page.class_eval {

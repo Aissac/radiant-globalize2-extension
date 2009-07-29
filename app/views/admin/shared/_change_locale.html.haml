@@ -1,3 +1,15 @@
+- @stylesheets << 'globalize2'
+
 #globalize
-  - Globalize2Extension.locales.map do |locale|
-    = link_to_unless(I18n.locale == locale, "#{locale.capitalize}", params.merge(:locale => locale))
+  #edit
+    %span Locale:
+    - Globalize2Extension.locales.map do |locale|
+      = link_to_unless(I18n.locale == locale, "<img src='/images/admin/#{locale.downcase}.gif' alt='#{locale.upcase}' />", params.merge(:locale => locale))
+      - if !@page.nil? && I18n.locale == locale
+        - if I18n.locale != GLOBALIZE_BASE_LANGUAGE
+          - if @page.translated_locales.include?(locale.to_sym)
+            %span.translated (translated)
+          - else
+            %span.not-translated (not translated)
+        - else
+          %span (default)
