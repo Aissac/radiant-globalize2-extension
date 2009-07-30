@@ -22,7 +22,7 @@ module Globalize2
     tag 'locales' do |tag|
       hash = tag.locals.locale = {}
       tag.expand
-      raise TagError.new("`locales' tag must include a `normal' tag") unless hash.has_key? :normal
+      raise TagError.new("'locales' tag must include a 'normal' tag") unless hash.has_key? :normal
     
       result = []
       codes = tag.attr["codes"].split("|").each do |code|
@@ -52,7 +52,7 @@ module Globalize2
   
     tag 'with_locale' do |tag|
       code = tag.attr['code']
-      raise TagError.new("`code' must be set") if code.blank?
+      raise TagError.new("'code' must be set") if code.blank?
       result = ''
       switch_locale(code) do
         result << tag.expand

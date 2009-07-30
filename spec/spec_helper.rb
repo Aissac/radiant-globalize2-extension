@@ -34,3 +34,8 @@ Spec::Runner.configure do |config|
   # If you declare global fixtures, be aware that they will be declared
   # for all of your examples, even those that don't use them.
 end
+
+gem 'thoughtbot-factory_girl', '>= 1.2.1'
+require 'factory_girl'
+
+require File.dirname(__FILE__) + "/factories.rb"
