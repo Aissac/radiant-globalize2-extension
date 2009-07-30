@@ -45,10 +45,9 @@ class Globalize2Extension < Radiant::Extension
       model.send(:translates, *columns)
     end
     
-    Page.class_eval {
-      include GlobalizeTags
-      include Globalize2::PageExtensions
-    }
+    Page.send(:include, Globalize2::GlobalizeTags)
+    Page.send(:include, Globalize2::PageExtensions)
+    
   end
   
   def deactivate
