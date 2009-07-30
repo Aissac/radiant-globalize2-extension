@@ -7,6 +7,8 @@ module GlobalizeTags
     base.class_eval do
       alias_method_chain 'tag:link', :globalize
       alias_method_chain :relative_url_for, :globalize
+      after_save :check_reset_translations
+      attr_accessor :reset_translations
     end
   end
   
@@ -14,6 +16,9 @@ module GlobalizeTags
     '/' + I18n.locale + relative_url_for_without_globalize(*args)
   end
   
+  def check_reset_translations
+
+  end
   
   tag 'link_with_globalize' do |tag|
     locale = tag.attr.delete("locale")
@@ -28,6 +33,46 @@ module GlobalizeTags
   
   tag 'locale' do |tag|
     I18n.locale.to_s
+  end
+  
+  tag 'locales' do |tag|
+    hash = tag.locals.locale = {}
+    tag.expand
+    
+    result = []
+    codes = tag.attr["codes"].split("|").each do |code|
+      hash[:code] = code
+      if I18n.locale == code
+        result << (hash[:active] || hash[:normal]).call
+      else
+        switch_locale(code) do
+          result << hash[:normal].call
+        end
+      end
+    end
+    result.reject { |i| i.blank? }
+  end
+  
+  [:normal, :active].each do |symbol|
+    tag "locales:#{symbol}" do |tag|
+      hash = tag.locals.locale
+      hash[symbol] = tag.block
+    end
+  end
+  
+  tag 'locales:code' do |tag|
+    hash = tag.locals.locale
+    hash[:code]
+  end
+  
+  tag 'with_locale' do |tag|
+    code = tag.attr['code']
+    raise TagError.new("`code' must be set") if code.blank?
+    result = ''
+    switch_locale(code) do
+      result << tag.expand
+    end
+    result
   end
   
   tag 'if_translation_title' do |tag|
