@@ -7,7 +7,7 @@ module GlobalizeTags
     base.class_eval do
       alias_method_chain 'tag:link', :globalize
       alias_method_chain :relative_url_for, :globalize
-      after_save :check_reset_translations
+      alias_method_chain :update_globalize_record, :reset
       attr_accessor :reset_translations
     end
   end
@@ -16,10 +16,17 @@ module GlobalizeTags
     '/' + I18n.locale + relative_url_for_without_globalize(*args)
   end
   
-  def check_reset_translations
-
+  def update_globalize_record_with_reset
+    if reset_translations && I18n.locale != GLOBALIZE_BASE_LANGUAGE
+      self.globalize_translations.find_by_locale(I18n.locale).destroy
+      parts.each do |part|
+        part.globalize_translations.find_by_locale(I18n.locale).destroy
+      end
+    else
+      update_globalize_record_without_reset
+    end
   end
-  
+
   tag 'link_with_globalize' do |tag|
     locale = tag.attr.delete("locale")
     if locale
@@ -30,14 +37,15 @@ module GlobalizeTags
       send('tag:link_without_globalize', tag)
     end
   end
-  
+
   tag 'locale' do |tag|
     I18n.locale.to_s
   end
-  
+
   tag 'locales' do |tag|
     hash = tag.locals.locale = {}
     tag.expand
+    raise TagError.new("`locales' tag must include a `normal' tag") unless hash.has_key? :normal
     
     result = []
     codes = tag.attr["codes"].split("|").each do |code|

@@ -39,15 +39,16 @@ class Globalize2Extension < Radiant::Extension
     
     I18n.default_locale = GLOBALIZE_BASE_LANGUAGE
     
-    Page.class_eval {
-      include GlobalizeTags
-      include Globalize2::PageExtensions
-    }
     ApplicationController.send(:include, Globalize2::ApplicationControllerExtensions)
     
     GLOBALIZABLE_CONTENT.each do |model, columns|
       model.send(:translates, *columns)
     end
+    
+    Page.class_eval {
+      include GlobalizeTags
+      include Globalize2::PageExtensions
+    }
   end
   
   def deactivate
