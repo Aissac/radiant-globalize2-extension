@@ -14,9 +14,19 @@ Given /^a page "([^\"]*)" exists$/ do |title|
   Factory.create(:page, :title => title)
 end
 
+Given /^a page "([^\"]*)" exists with a "([^\"]*)" page part$/ do |title, part|
+  page = Factory.create(:page, :title => title)
+  Factory.create(:page_part, :name => part, :page => page)
+end
+
 Given /^a page "([^\"]*)" exists translated to "([^\"]*)"$/ do |title, translated_title|
   page = Factory.create(:page, :title => title)
   Factory.create(:romanian_page_translation, :page => page, :title => translated_title)
+end
+
+Then /^the "([^\"]*)" page should contain "([^\"]*)" for "([^\"]*)" locale$/ do |title, content, locale|
+  page = Page.find_by_title(title)
+  page.parts.first.globalize_translations.find_by_locale(locale).content.should == content
 end
 
 Given /^a layout "([^\"]*)" exists$/ do |name|
