@@ -14,4 +14,6 @@ Feature: Globalize 2
       And I fill in "layout_content" with "continut romanesc"
       And I press "Save Changes"
      Then the "Cool Layout" layout should be saved for "ro" locale
+      And the "Cool Layout" layout should contain "continut romanesc" for "ro" locale
       And the "Cool Layout" layout should be saved for "en" locale
+      And the "Cool Layout" layout should contain "english content" for "en" locale
