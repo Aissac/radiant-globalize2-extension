@@ -42,7 +42,7 @@ module Globalize2
     end
 
     def update_globalize_record_with_reset
-      if reset_translations && I18n.locale != GLOBALIZE_BASE_LANGUAGE
+      if reset_translations && I18n.locale != Globalize2Extension.default_language
         self.globalize_translations.find_by_locale(I18n.locale).destroy
         parts.each do |part|
           part.globalize_translations.find_by_locale(I18n.locale).destroy

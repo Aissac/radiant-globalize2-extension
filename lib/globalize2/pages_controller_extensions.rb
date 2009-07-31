@@ -7,7 +7,7 @@ module Globalize2
     end
     
     def reset_locale
-      locale = GLOBALIZE_BASE_LANGUAGE
+      locale = Globalize2Extension.default_language
       session[:locale] = locale
       I18n.locale = locale
       flash.now[:notice] = "The locale has been changed to the default locale."

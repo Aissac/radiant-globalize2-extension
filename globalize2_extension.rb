@@ -6,9 +6,6 @@ class Globalize2Extension < Radiant::Extension
   description "Translate content in Radiant CMS using the Globalize2 Rails plugin."
   url "http://blog.aissac.ro/radiant/globalize2-extension/"
   
-  raise "You must define GLOBALIZE_BASE_LANGUAGE in your environment.rb" unless defined?(GLOBALIZE_BASE_LANGUAGE)
-  raise "You must define GLOBALIZE_LANGUAGES in your environment.rb" unless defined?(GLOBALIZE_LANGUAGES)  
-  
   define_routes do |map|
     map.connect '/:locale/*url', :controller => 'site', :action => 'show_page',
       :locale => Regexp.compile(locales.join("|"))
@@ -21,8 +18,16 @@ class Globalize2Extension < Radiant::Extension
     Snippet  => [:content]
   }
   
+  def self.default_language
+    @@default_language ||= Radiant::Config['globalize.default_language'].blank? ? "en" : Radiant::Config['globalize.default_language']
+  end
+  
+  def self.languages
+    @@languages ||= Radiant::Config['globalize.languages'].blank? ? [] : Radiant::Config['globalize.languages'].split(",").map(&:to_s)
+  end
+  
   def self.locales
-    @@locales ||= [GLOBALIZE_BASE_LANGUAGE, *GLOBALIZE_LANGUAGES].map(&:to_s)
+    @@locales ||= [default_language, *languages].map(&:to_s)
   end
   
   def activate
@@ -37,7 +42,7 @@ class Globalize2Extension < Radiant::Extension
     admin.page.index.add :sitemap_head, 'admin/shared/globalize_th'
     admin.page.index.add :node, 'admin/shared/globalize_td'
     
-    I18n.default_locale = GLOBALIZE_BASE_LANGUAGE
+    I18n.default_locale = Globalize2Extension.default_language
     
     ApplicationController.send(:include, Globalize2::ApplicationControllerExtensions)
     Admin::PagesController.send(:include, Globalize2::PagesControllerExtensions)

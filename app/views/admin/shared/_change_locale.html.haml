@@ -6,14 +6,14 @@
     - Globalize2Extension.locales.map do |locale|
       = link_to_unless(I18n.locale == locale, "<img src='/images/admin/#{locale.downcase}.gif' alt='#{locale.upcase}' />", params.merge(:locale => locale))
       - if !@page.nil? && I18n.locale == locale
-        - if I18n.locale != GLOBALIZE_BASE_LANGUAGE
+        - if I18n.locale != Globalize2Extension.default_language
           - if @page.translated_locales.include?(locale.to_sym)
             %span.translated (translated)
           - else
             %span.not-translated (not translated)
         - else
           %span (default)
-    - unless @page.nil? || I18n.locale == GLOBALIZE_BASE_LANGUAGE
+    - unless @page.nil? || I18n.locale == Globalize2Extension.default_language
       %label{:for => "reset_translations"}
         %input{:type => "checkbox", :value => "true", :name => "page[reset_translations]", :id => "reset_translations"}
         Delete  

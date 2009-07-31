@@ -10,16 +10,6 @@ Webrat.configure do |config|
   config.mode = :rails
 end
 
-# Before do
-#   [ClassSession, Enrollment, Event, Guardian, Location, Registration, Student, Teacher, WeekDay, User, AgeRange].each do |model|
-#     begin
-#       model.delete_all
-#     rescue StandardError => e
-#       puts e.message
-#     end
-#   end
-# end
-
 Before do
   ActiveRecord::Base.connection.tables.each do |table|
     begin
@@ -28,6 +18,7 @@ Before do
       # silent
     end
   end
+  Radiant::Config.create!(:key => 'globalize.languages', :value => "ro") if Radiant::Config['globalize.languages'].blank?
 end
 
 require 'cucumber/rails/rspec'

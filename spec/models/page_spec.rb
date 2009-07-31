@@ -16,7 +16,7 @@ describe Page do
     page.save
     page
   end
-  
+
   describe "validate unique_slug" do
     before(:each) do
       @parent = Factory.create(:page)
