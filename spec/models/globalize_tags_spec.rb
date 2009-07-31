@@ -26,7 +26,13 @@ describe "Globalize 2 Tags" do
     it "renders the list of codes supplied" do
       @page.
         should render("<r:locales codes='en|ro'><r:normal><r:locale /></r:normal><r:active><r:locale /></r:active></r:locales>").
-        as("enro")
+        as("en ro")
+    end
+    
+    it "prefers the between attribute when rendering the locales" do
+      @page.
+        should render("<r:locales codes='en|ro' between='|'><r:normal><r:locale /></r:normal><r:active><r:locale /></r:active></r:locales>").
+        as("en|ro")      
     end
   end
   

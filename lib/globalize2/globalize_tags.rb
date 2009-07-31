@@ -35,7 +35,8 @@ module Globalize2
           end
         end
       end
-      result.reject { |i| i.blank? }
+      between = tag.attr["between"] || " "
+      result.reject { |i| i.blank? }.join(between)
     end
   
     [:normal, :active].each do |symbol|
