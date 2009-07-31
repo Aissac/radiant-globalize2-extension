@@ -40,6 +40,7 @@ class Globalize2Extension < Radiant::Extension
     I18n.default_locale = GLOBALIZE_BASE_LANGUAGE
     
     ApplicationController.send(:include, Globalize2::ApplicationControllerExtensions)
+    Admin::PagesController.send(:include, Globalize2::PagesControllerExtensions)
     
     GLOBALIZABLE_CONTENT.each do |model, columns|
       model.send(:translates, *columns)

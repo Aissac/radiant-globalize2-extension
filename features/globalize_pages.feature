@@ -47,3 +47,12 @@ Feature: Globalize 2
       And I should not see "Pagina cool"
      When I follow "EN"
      Then I should see "Cool Page"
+     
+  Scenario: The locale is changed to default when creating a new page
+    Given a page "HomePage" exists
+      And I am on the pages index page
+      And I follow "RO"
+     When I follow "add child"
+     Then I should see "The locale has been changed to the default locale."
+      And I should see "(default)"
+      
