@@ -8,14 +8,13 @@
       - if !@page.nil? && I18n.locale == locale
         - if I18n.locale != Globalize2Extension.default_language
           - if @page.translated_locales.include?(locale.to_sym)
-            %span.translated (translated)
+            %span.translated
+              %label{:for => "reset_translations"}
+                %input{:type => "checkbox", :value => "true", :name => "page[reset_translations]", :id => "reset_translations"}
+                Delete  
+                = I18n.locale.upcase
+                translation
           - else
             %span.not-translated (not translated)
         - else
           %span (default)
-    - unless @page.nil? || I18n.locale == Globalize2Extension.default_language
-      %label{:for => "reset_translations"}
-        %input{:type => "checkbox", :value => "true", :name => "page[reset_translations]", :id => "reset_translations"}
-        Delete  
-        = I18n.locale.upcase
-        translation
