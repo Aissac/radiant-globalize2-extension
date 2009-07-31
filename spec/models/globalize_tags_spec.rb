@@ -7,6 +7,7 @@ describe "Globalize 2 Tags" do
     Factory.create(:romanian_page_translation, :page => @page)
     @page_part = Factory.create(:page_part, :page => @page)
     Factory.create(:romanian_page_part_translation, :page_part => @page_part)
+    I18n.locale = "en"
   end
   
   describe "<r:locale />" do
@@ -47,13 +48,13 @@ describe "Globalize 2 Tags" do
     it "expands if the page's title is translated" do
       @page.
         should render("<r:if_translation_title><r:title /></r:if_translation_title>").
-        as("Cool Page")
+        as(/Cool Page \d/)
     end
   end
   
   describe "<r:unless_translation_title />" do
     it "expands if the page's title is not translated" do
-      not_translated_page = Factory.create(:not_translated_page)
+      not_translated_page = Factory.create(:page, :title => "Not Translated Page")
       switch_locale("ro") do
         not_translated_page.
           should render("<r:unless_translation_title><r:title /></r:unless_translation_title>").
@@ -72,8 +73,8 @@ describe "Globalize 2 Tags" do
   
   describe "<r:unless_translation_content" do
     it "expands if the page's 'body' part is not translated" do
-      not_translated_page = Factory.create(:not_translated_page) 
-      not_translated_page_part = Factory.create(:not_translated_page_part, :page => not_translated_page)
+      not_translated_page = Factory.create(:page, :title => "Not Translated Page") 
+      not_translated_page_part = Factory.create(:page_part, :page => not_translated_page, :content => "not-translated")
       switch_locale("ro") do
         not_translated_page.
           should render("<r:unless_translation_content part='body'><r:content /></r:unless_translation_content>").

@@ -21,7 +21,7 @@ describe Page do
     before(:each) do
       @parent = Factory.create(:page)
       @child = Factory.create(:child_page, :parent => @parent)
-      @another = Factory.create(:another_page, :parent => @parent)
+      @another = Factory.create(:page, :parent => @parent)
     end
     
     it "is valid" do
