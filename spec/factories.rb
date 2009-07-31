@@ -42,3 +42,10 @@ Factory.define(:child_page, :class => "page") do |f|
   f.breadcrumb { |a| a.title }
   f.association :parent, :factory => :page
 end
+
+Factory.define(:another_page, :class => "page") do |f|
+  f.title "Another Page"
+  f.slug { |a| a.title.downcase.gsub(/[^-a-z0-9~\s\.:;+=_]/, '').gsub(/[\s\.:;=+]+/, '-') }
+  f.breadcrumb { |a| a.title }
+  f.association :parent, :factory => :page
+end

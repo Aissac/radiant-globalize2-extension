@@ -81,13 +81,4 @@ describe "Globalize 2 Tags" do
       end
     end
   end
-  
-  private
-    def switch_locale(locale)
-      current_locale = I18n.locale
-      I18n.locale = locale
-      result = yield
-      I18n.locale = current_locale
-      result
-    end
 end

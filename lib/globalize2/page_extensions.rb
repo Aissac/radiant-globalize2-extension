@@ -13,10 +13,32 @@ module Globalize2
       end
     end
     
-    def unique_slug
-      if self.class.find(:first, :joins => "INNER JOIN page_translations on page_translations.page_id = pages.id", :conditions => ["pages.parent_id = ? AND page_translations.slug = ? AND page_translations.locale = ? AND page_translations.page_id <> ?", parent_id, slug, self.class.locale, id])
+    def unique_slug      
+      options = {
+        "pages.parent_id = ?" => parent_id,
+        "page_translations.slug = ?" => slug,
+        "page_translations.locale = ?" => self.class.locale,
+        "page_translations.page_id <> ?" => id
+      }
+      
+      conditions_str = []
+      conditions_arg = []
+      
+      options.each do |key, value|
+        if value != nil
+          conditions_str << key
+          conditions_arg << value
+        else
+          conditions_str << "page_translations.page_id IS NOT NULL"
+        end
+      end
+      
+      conditions = [conditions_str.join(" AND "), *conditions_arg]
+      
+      if self.class.find(:first, :joins => "INNER JOIN page_translations on page_translations.page_id = pages.id", :conditions => conditions )
         errors.add('slug', "must be unique")
       end
+      
     end
 
     def update_globalize_record_with_reset
