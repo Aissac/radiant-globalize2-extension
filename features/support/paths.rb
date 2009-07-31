@@ -10,8 +10,12 @@ module NavigationHelpers
     
     when /the welcome page/
       welcome_path
-    when /the index page/
+    when /the pages index page/
       admin_pages_path
+    when /the layouts index page/
+      admin_layouts_path
+    when /the snippets index page/
+      admin_snippets_path
     else
       raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
         "Now, go and add a mapping in #{__FILE__}"

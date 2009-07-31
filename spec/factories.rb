@@ -26,3 +26,13 @@ Factory.define(:child_page, :class => "page", :parent => :page) do |f|
   f.title "Child Page"
   f.association :parent, :factory => :page
 end
+
+Factory.define(:layout) do |f|
+  f.sequence(:name) { |i| "Cool layout #{i}" }
+  f.content "english content"
+end
+
+Factory.define(:snippet) do |f|
+  f.sequence(:name) { |i| "Cool snippet #{i}" }
+  f.content "english content"
+end
