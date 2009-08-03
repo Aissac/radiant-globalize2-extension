@@ -15,15 +15,46 @@ module Globalize2
       end
     end
 
+    desc %{
+      Renders the current locale.
+      
+      *Usage:*
+      
+      <pre><code><r:locale /></code></pre>
+    }
     tag 'locale' do |tag|
       I18n.locale.to_s
     end
-
+    
+    desc %{
+      Renders one of the passed values based on a global cycle counter.  Use the @reset@
+      attribute to reset the cycle to the beginning.  Use the @name@ attribute to track
+      multiple cycles; the default is @cycle@.
+      
+      
+      Renders the locales passed in @codes@ attribute. Use the @between@ attribute to specify something between the rendered locale codes.
+      
+      *Example*
+      
+<pre><code>
+<ul>
+  <r:locales codes='en|ro'>
+    <r:normal>
+      <li><r:link id='<r:locale />'><r:locale /></r:link></li>
+    </r:normal>
+    <r:active>
+      <li><r:link id='<r:locale />'><r:locale /></r:link></li>
+    </r:active>
+  </r:locales>        
+</ul>
+</code></pre>
+    }
     tag 'locales' do |tag|
       hash = tag.locals.locale = {}
       tag.expand
       raise TagError.new("'locales' tag must include a 'normal' tag") unless hash.has_key? :normal
-    
+      raise TagError.new("'codes' attribute must be set") if tag.attr['codes'].blank?
+      
       result = []
       codes = tag.attr["codes"].split("|").each do |code|
         hash[:code] = code
@@ -51,6 +82,13 @@ module Globalize2
       hash[:code]
     end
   
+    desc %{
+      Temporarily switch the locale within the block. Use the @code@ attribute so specify the locale you want to switch to.
+      
+      *Usage:* 
+      
+      <pre><code><r:with_locale code='en'>...</r:with_locale></code></pre>
+    }
     tag 'with_locale' do |tag|
       code = tag.attr['code']
       raise TagError.new("'code' must be set") if code.blank?
@@ -61,22 +99,51 @@ module Globalize2
       result
     end
 
+    desc %{
+      Renders the containing elements if the page's title is translated. This doesn't necessarily mean the content (page parts) are translated.
+      
+      *Usage:*
+      
+      <pre><code><r:if_translation_title>...</r:if_translation_title></code></pre>
+    }
     tag 'if_translation_title' do |tag|
       page = tag.locals.page
       tag.expand if page.translated_locales.include?(I18n.locale.to_sym)
     end
   
+    desc %{
+      The opposite of the @if_translation_title@ tag. Renders the containing elements if the page's title is not translated.
+      
+      *Usage:*
+      
+      <pre><code><r:unless_translation_title>...</r:unless_translation_title></code></pre>
+    }
     tag 'unless_translation_title' do |tag|
       page = tag.locals.page
       tag.expand unless page.translated_locales.include?(I18n.locale.to_sym)
     end
   
+    desc %{
+      Renders the containing elements if the page's part is translated. By default the @part@ attribute is set to @body@
+      
+      *Usage:*
+      
+      <pre><code><r:if_translation_content [part='part_name']>...</r:if_translation_content></code></pre>
+      
+    }
     tag 'if_translation_content' do |tag|
       name = tag.attr['part'] || 'body'
       part = tag.locals.page.part(name)
       tag.expand if part && part.translated_locales.include?(I18n.locale.to_sym)
     end
   
+    desc %{
+      The opposite of the @if_translation_content@ tag. Renders the containing elements if the page's part is not translated. By default, the @part@ attribute is set to @body@
+      
+      *Usage:*
+      
+      <pre><code><r:unless_translation_content [part='part_name']>...</r:unless_translation_content></code></pre>
+    }
     tag 'unless_translation_content' do |tag|
       name = tag.attr['part'] || 'body'
       part = tag.locals.page.part(name)
