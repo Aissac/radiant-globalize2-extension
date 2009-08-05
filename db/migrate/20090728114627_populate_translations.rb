@@ -7,7 +7,7 @@ class PopulateTranslations < ActiveRecord::Migration
   def self.up    
     globalizable_content.each do |model, columns|
       model.send(:all).each do |item|
-        translation = item.globalize_translations.find_or_initialize_by_locale("en")
+        translation = item.globalize_translations.find_or_initialize_by_locale(Globalize2Extension.default_language.to_s)
         columns.each do |column|
           translation[column] = item[column]
         end
