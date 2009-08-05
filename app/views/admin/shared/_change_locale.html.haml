@@ -1,6 +1,7 @@
 - @stylesheets << 'globalize2'
 
 #globalize
+  %input{:type => "hidden", :name => "locale", :value => I18n.locale }
   #edit
     %span Locale:
     - Globalize2Extension.locales.map do |locale|
