@@ -10,6 +10,14 @@ module Globalize2
         alias_method_chain :relative_url_for, :globalize
         alias_method_chain :update_globalize_record, :reset
         attr_accessor :reset_translations
+
+        alias_method_chain 'tag:paginate', :globalize if defined?(PaginateExtension)
+        
+        def self.scope_locale(locale, &block)
+          with_scope(:find => { :joins => "INNER JOIN page_translations on page_translations.page_id = pages.id", :conditions => ['page_translations.locale = ?', locale] }) do
+            yield
+          end
+        end
       end
     end
     

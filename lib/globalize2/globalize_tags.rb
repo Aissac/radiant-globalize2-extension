@@ -14,6 +14,13 @@ module Globalize2
         send('tag:link_without_globalize', tag)
       end
     end
+    
+    tag 'paginate_with_globalize' do |tag|
+      result = Page.scope_locale(I18n.locale) do
+        send('tag:paginate_without_globalize', tag)
+      end
+      result
+    end
 
     desc %{
       Renders the current locale.
