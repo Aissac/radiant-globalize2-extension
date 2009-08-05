@@ -46,6 +46,7 @@ class Globalize2Extension < Radiant::Extension
     
     ApplicationController.send(:include, Globalize2::ApplicationControllerExtensions)
     Admin::PagesController.send(:include, Globalize2::PagesControllerExtensions)
+    ArchivePage.send(:include, Globalize2::ArchivePageExtensions)
     
     GLOBALIZABLE_CONTENT.each do |model, columns|
       model.send(:translates, *columns)
