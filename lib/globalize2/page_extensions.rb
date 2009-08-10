@@ -64,5 +64,13 @@ module Globalize2
     def relative_url_for_with_globalize(*args)
       '/' + I18n.locale + relative_url_for_without_globalize(*args)
     end 
+    
+    def clone
+      new_page = super
+      globalize_translations.each do |t|
+        new_page.globalize_translations << t.clone
+      end
+      new_page
+    end
   end
 end

@@ -48,12 +48,15 @@ class Globalize2Extension < Radiant::Extension
     Admin::PagesController.send(:include, Globalize2::PagesControllerExtensions)
     ArchivePage.send(:include, Globalize2::ArchivePageExtensions)
     
+    CopyMoveController.send(:include, Globalize2::CopyMoveControllerExtensions) if defined?(CopyMoveExtension)
+    
     GLOBALIZABLE_CONTENT.each do |model, columns|
       model.send(:translates, *columns)
     end
     
     Page.send(:include, Globalize2::GlobalizeTags)
     Page.send(:include, Globalize2::PageExtensions)
+    PagePart.send(:include, Globalize2::PagePartExtensions)
     
   end
   

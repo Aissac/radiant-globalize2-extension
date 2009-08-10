@@ -5,12 +5,5 @@ module Globalize2
         before_filter :reset_locale, :only => [:new]
       end
     end
-    
-    def reset_locale
-      locale = Globalize2Extension.default_language
-      session[:locale] = locale
-      I18n.locale = locale
-      flash.now[:notice] = "The locale has been changed to the default locale."
-    end
   end
 end
