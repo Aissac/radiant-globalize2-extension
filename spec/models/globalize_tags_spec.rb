@@ -54,7 +54,7 @@ describe "Globalize 2 Tags" do
     it "expands if the page's title is translated" do
       @page.
         should render("<r:if_translation_title><r:title /></r:if_translation_title>").
-        as(/Cool Page \d/)
+        matching(/Cool Page \d*/)
     end
   end
   
@@ -91,7 +91,7 @@ describe "Globalize 2 Tags" do
   
   describe "<r:link_with_globalize />" do
     it "renders the link with the current locale if 'locale' tag attribute is not set" do
-      @page.should render("<r:link />").as(/<a href=\"\/en\/cool-page-\d\/\">Cool Page \d\<\/a>/)
+      @page.should render("<r:link />").matching(/<a href=\"\/en\/cool-page-\d*\/\">Cool Page \d*\<\/a>/)
     end
     
     it "renders the link with the given locale if the 'locale' tag attribute is set" do
@@ -120,7 +120,32 @@ describe "Globalize 2 Tags" do
       switch_locale("ro") do
         @parent.
           should render("<r:children:each locale='false'><r:title /> </r:children:each>").
-          as(/Pagina 1 Child page \d/)
+          matching(/Pagina 1 Child page \d*/)
+      end
+    end
+  end
+  
+  describe "<r:paginate_with_globalize />" do
+    before(:each) do
+      @parent = Factory.create(:page)
+      child_one = Factory.create(:child_page, :parent => @parent)
+      Factory.create(:romanian_page_translation, :page => child_one, :title => "Pagina 1")
+      (1..4).map{ |i| Factory.create(:child_page, :parent => @parent) }
+    end
+    
+    it "filters the paginated children by locale if 'locale' tag attribute is not set to false" do
+      switch_locale("ro") do
+        @parent.
+          should render("<r:paginate per_page='2'><r:each><r:title /></r:each></r:paginate>").
+          as("Pagina 1")
+      end
+    end
+    
+    it "does not filter paginated children by locale if 'locale' tag attribute is set to false" do
+      switch_locale("ro") do
+        @parent.
+          should render("<r:paginate per_page='2' locale='false'><r:each><r:title /> </r:each></r:paginate>").
+          matching(%r{Pagina 1 Child page \d*})
       end
     end
   end
