@@ -31,3 +31,9 @@ Factory.define(:snippet) do |f|
   f.sequence(:name) { |i| "Cool snippet #{i}" }
   f.content "english content"
 end
+
+Factory.define(:child_page, :class => "page", :parent => :page) do |f|
+  f.sequence(:title) {|i| "Child page #{i}"}
+  f.association :parent, :factory => :page
+  f.status_id 100
+end

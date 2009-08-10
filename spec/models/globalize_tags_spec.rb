@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Globalize 2 Tags" do
-  
+
   before do
     I18n.locale = "en"
     @page = Factory.create(:page)
@@ -102,19 +102,26 @@ describe "Globalize 2 Tags" do
   describe "<r:children:each />" do
     before(:each) do
       @parent = Factory.create(:page)
-      child_one = Factory.create(:page, :parent => @parent)
+      child_one = Factory.create(:child_page, :parent => @parent)
+      Factory.create(:child_page, :parent => @parent)
+
       Factory.create(:romanian_page_translation, :page => child_one, :title => "Pagina 1")
-      Factory.create(:page, :parent => @parent)
     end
     
-    it "does something" do
-      @parent.children.each do |c|
-        puts c.title + "<br />"
+    it "filters the children by locale if 'locale' attribute is not set to false" do
+      switch_locale("ro") do
+        @parent.
+          should render("<r:children:each><r:title /> </r:children:each>").
+          as("Pagina 1 ")
       end
-      
-      @parent.
-        should render("<r:children:each><r:title /> </r:children:each>").
-        as("test")
+    end
+    
+    it "does not filter by locale if 'locale' attribute is set to false" do
+      switch_locale("ro") do
+        @parent.
+          should render("<r:children:each locale='false'><r:title /> </r:children:each>").
+          as(/Pagina 1 Child page \d/)
+      end
     end
   end
 end
