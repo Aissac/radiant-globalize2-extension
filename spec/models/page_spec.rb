@@ -20,7 +20,7 @@ describe Page do
   describe "validate unique_slug" do
     before(:each) do
       @parent = Factory.create(:page)
-      @child = Factory.create(:child_page, :parent => @parent)
+      @child = Factory.create(:page, :parent => @parent, :title => "Child Page")
       @another = Factory.create(:page, :parent => @parent)
     end
     

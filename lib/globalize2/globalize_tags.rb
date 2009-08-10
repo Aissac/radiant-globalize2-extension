@@ -16,8 +16,25 @@ module Globalize2
     end
     
     tag 'paginate_with_globalize' do |tag|
-      result = Page.scope_locale(I18n.locale) do
-        send('tag:paginate_without_globalize', tag)
+      with_translated_locales = tag.attr['locale'] == 'false' ? false : true
+      if with_translated_locales
+        result = Page.scope_locale(I18n.locale) do
+          send('tag:paginate_without_globalize', tag)
+        end
+      else
+        result = send('tag:paginate_without_globalize', tag)
+      end
+      result
+    end
+    
+    tag 'children:each_with_globalize' do |tag|
+      with_translated_locales = tag.attr['locale'] == 'false' ? false : true
+      if with_translated_locales
+        result = Page.scope_locale(I18n.locale) do
+          send('tag:children:each_without_globalize', tag)
+        end
+      else
+        result = send('tag:children:each_without_globalize', tag)
       end
       result
     end

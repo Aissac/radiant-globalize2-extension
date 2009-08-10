@@ -3,11 +3,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "Globalize 2 Tags" do
   
   before do
+    I18n.locale = "en"
     @page = Factory.create(:page)
     Factory.create(:romanian_page_translation, :page => @page)
     @page_part = Factory.create(:page_part, :page => @page)
     Factory.create(:romanian_page_part_translation, :page_part => @page_part)
-    I18n.locale = "en"
   end
   
   describe "<r:locale />" do
@@ -86,6 +86,35 @@ describe "Globalize 2 Tags" do
           should render("<r:unless_translation_content part='body'><r:content /></r:unless_translation_content>").
           as("not-translated")
       end
+    end
+  end
+  
+  describe "<r:link_with_globalize />" do
+    it "renders the link with the current locale if 'locale' tag attribute is not set" do
+      @page.should render("<r:link />").as(/<a href=\"\/en\/cool-page-\d\/\">Cool Page \d\<\/a>/)
+    end
+    
+    it "renders the link with the given locale if the 'locale' tag attribute is set" do
+      @page.should render("<r:link locale='ro' />").as("<a href=\"/ro/pagina-cool/\">Pagina Cool</a>")
+    end
+  end
+  
+  describe "<r:children:each />" do
+    before(:each) do
+      @parent = Factory.create(:page)
+      child_one = Factory.create(:page, :parent => @parent)
+      Factory.create(:romanian_page_translation, :page => child_one, :title => "Pagina 1")
+      Factory.create(:page, :parent => @parent)
+    end
+    
+    it "does something" do
+      @parent.children.each do |c|
+        puts c.title + "<br />"
+      end
+      
+      @parent.
+        should render("<r:children:each><r:title /> </r:children:each>").
+        as("test")
     end
   end
 end

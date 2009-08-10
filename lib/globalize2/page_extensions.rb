@@ -7,6 +7,7 @@ module Globalize2
       
       base.class_eval do
         alias_method_chain 'tag:link', :globalize
+        alias_method_chain 'tag:children:each', :globalize
         alias_method_chain :relative_url_for, :globalize
         alias_method_chain :update_globalize_record, :reset
         attr_accessor :reset_translations
