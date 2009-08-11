@@ -20,7 +20,7 @@ module Globalize2
           locale = Globalize2Extension.default_language
           session[:locale] = locale
           I18n.locale = locale
-          flash.now[:notice] = "The locale has been changed to the default locale."
+          flash.now[:notice] = "The locale has been changed to default."
         end
       end
     end

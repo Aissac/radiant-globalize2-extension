@@ -1,5 +1,5 @@
-module Globalize2
-  module ArchivePageExtensions
+module Globalize2::Compatibility
+  module Archive::ArchivePageExtensions
     def self.included(base)
       base.class_eval do
         def child_url(child)

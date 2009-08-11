@@ -6,13 +6,11 @@ module Globalize2
       base.reflections[:children].options[:order] = 'pages.virtual DESC'
       
       base.class_eval do
+        attr_accessor :reset_translations
         alias_method_chain 'tag:link', :globalize
         alias_method_chain 'tag:children:each', :globalize
-        alias_method_chain :relative_url_for, :globalize
+        alias_method_chain :url, :globalize
         alias_method_chain :update_globalize_record, :reset
-        attr_accessor :reset_translations
-
-        alias_method_chain 'tag:paginate', :globalize if defined?(PaginateExtension)
         
         def self.scope_locale(locale, &block)
           with_scope(:find => { :joins => "INNER JOIN page_translations on page_translations.page_id = pages.id", :conditions => ['page_translations.locale = ?', locale] }) do
@@ -60,10 +58,14 @@ module Globalize2
         update_globalize_record_without_reset
       end
     end
-   
-    def relative_url_for_with_globalize(*args)
-      '/' + I18n.locale + relative_url_for_without_globalize(*args)
-    end 
+    
+    def url_with_globalize
+      unless parent
+        '/' + I18n.locale + url_without_globalize
+      else
+        url_without_globalize
+      end
+    end
     
     def clone
       new_page = super

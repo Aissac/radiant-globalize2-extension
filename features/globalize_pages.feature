@@ -53,6 +53,6 @@ Feature: Globalize 2
       And I am on the pages index page
       And I follow "RO"
      When I follow "add child"
-     Then I should see "The locale has been changed to the default locale."
+     Then I should see "The locale has been changed to default."
       And I should see "(default)"
       

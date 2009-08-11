@@ -1,5 +1,5 @@
-module Globalize2
-  module CopyMoveControllerExtensions
+module Globalize2::Compatibility
+  module CopyMove::CopyMoveControllerExtensions
     def self.included(base)
       base.class_eval do
         before_filter :reset_locale

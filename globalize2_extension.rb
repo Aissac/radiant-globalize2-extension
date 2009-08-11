@@ -46,9 +46,7 @@ class Globalize2Extension < Radiant::Extension
     
     ApplicationController.send(:include, Globalize2::ApplicationControllerExtensions)
     Admin::PagesController.send(:include, Globalize2::PagesControllerExtensions)
-    ArchivePage.send(:include, Globalize2::ArchivePageExtensions)
-    
-    CopyMoveController.send(:include, Globalize2::CopyMoveControllerExtensions) if defined?(CopyMoveExtension)
+    SiteController.send(:include, Globalize2::SiteControllerExtensions)
     
     GLOBALIZABLE_CONTENT.each do |model, columns|
       model.send(:translates, *columns)
@@ -57,7 +55,14 @@ class Globalize2Extension < Radiant::Extension
     Page.send(:include, Globalize2::GlobalizeTags)
     Page.send(:include, Globalize2::PageExtensions)
     PagePart.send(:include, Globalize2::PagePartExtensions)
-    
+
+    #compatibility
+    CopyMoveController.send(:include, Globalize2::Compatibility::CopyMove::CopyMoveControllerExtensions) if defined?(CopyMoveExtension)
+    ArchivePage.send(:include, Globalize2::Compatibility::Archive::ArchivePageExtensions) if defined?(ArchiveExtension)
+    if defined?(PaginateExtension)
+      Page.send(:include, Globalize2::Compatibility::Paginate::GlobalizeTags)
+      Page.send(:include, Globalize2::Compatibility::Paginate::PageExtensions)
+    end
   end
   
   def deactivate
