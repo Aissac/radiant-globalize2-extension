@@ -57,7 +57,7 @@ class Globalize2Extension < Radiant::Extension
     PagePart.send(:include, Globalize2::PagePartExtensions)
 
     #compatibility
-    CopyMoveController.send(:include, Globalize2::Compatibility::CopyMove::CopyMoveControllerExtensions) if defined?(CopyMoveExtension)
+    CopyMove::Model.send(:include, Globalize2::Compatibility::CopyMove::CopyMoveModelExtensions) if defined?(CopyMoveExtension)
     ArchivePage.send(:include, Globalize2::Compatibility::Archive::ArchivePageExtensions) if defined?(ArchiveExtension)
     if defined?(PaginateExtension)
       Page.send(:include, Globalize2::Compatibility::Paginate::GlobalizeTags)
