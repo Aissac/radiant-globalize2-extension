@@ -8,7 +8,6 @@ class RemoveTranslatedAttributes < ActiveRecord::Migration
       columns.each do |column|
         remove_column model.table_name, column
       end
-      # add_column model.table_name, language_column_name, base_column.type, :limit => base_column.limit
     end
   end
 
