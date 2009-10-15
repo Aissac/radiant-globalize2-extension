@@ -89,9 +89,9 @@ You need to migrate Reorder extension before Globalize2
 
 ### [Paginate][pe]
 
-You need to load Paginate after Globalize2
+You need to load Paginate before Globalize2
 
-    config.extensions = [ :globalize2, :paginate, :all ]
+    config.extensions = [ :paginate, :globalize2, :all ]
     
 ### [Paperclipped][pc]
 
@@ -110,6 +110,9 @@ TODO
 
 Contributors
 ---
+
+* Cristi Duma ([@cristi_duma][cd])
+* Istvan Hoka ([@ihoka][ih])
 
 [rg2]: http://github.com/joshmh/globalize2
 [aissac]: http://aissac.ro
@@ -131,3 +134,6 @@ Contributors
 [snss]:http://github.com/SwankInnovations/radiant-sns-sass-filter-extension/
 [dbm]:http://github.com/Aissac/radiant-database-mailer-extension/
 [rse]:http://github.com/Aissac/radiant-super-export-extension/tree/master
+
+[cd]: http://twitter.com/cristi_duma
+[ih]: http://twitter.com/ihoka

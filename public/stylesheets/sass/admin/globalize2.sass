@@ -1,0 +1,59 @@
+.clearfix:after
+  :content "."
+  :display block
+  :height 0
+  :clear both
+  :visibility hidden
+.clearfix
+  :display inline-block
+.clearfix
+  :display block
+#globalize
+  :background-color #9E9E9E
+  :color white
+  :font-size 90%
+  :text-shadow 1px 1px 0 #666666
+  .index
+    :float right
+    :margin 5px 10px 5px 0
+    img
+      :border 2px solid #FFF
+      :padding 1px
+      :-moz-border-radius 4px
+      :-webkit-border-radius 4px
+      
+    a img
+      :border 2px solid #666
+      :-moz-border-radius 4px
+      :-webkit-border-radius 4px
+      &:hover
+        :border 2px solid #FFF
+        :-moz-border-radius 4px
+        :-webkit-border-radius 4px
+  .edit
+    img
+      :border 2px solid #FFF
+      :padding 1px
+      :-moz-border-radius 4px
+      :-webkit-border-radius 4px
+    a img
+      :border 2px solid #666
+      :-moz-border-radius 4px
+      :-webkit-border-radius 4px
+      &:hover
+        :border 2px solid #FFF
+        :-moz-border-radius 4px
+        :-webkit-border-radius 4px
+    span
+      &.not-translated
+        :font-weight bold
+  #edit_page &, #new_page &
+    :padding-bottom 10px
+  .edit_snippet &, .new_snippet &
+    :padding-top 10px
+    
+th.globalize, td.globalize
+  :width 100px
+
+#tab_control .tabs .tab
+  :padding-bottom 6px

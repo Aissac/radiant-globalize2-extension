@@ -1,9 +1,9 @@
-- @stylesheets << 'globalize2'
+- @stylesheets << 'admin/globalize2'
 
 #globalize
   %input{:type => "hidden", :name => "locale", :value => I18n.locale }
-  #edit
-    %span Locale:
+  .edit
+    %span
     - Globalize2Extension.locales.map do |locale|
       = link_to_unless(I18n.locale == locale, "<img src='/images/admin/#{locale.downcase}.gif' alt='#{locale.upcase}' />", params.merge(:locale => locale))
       - if !@page.nil? && I18n.locale == locale
