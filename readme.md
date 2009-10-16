@@ -6,7 +6,7 @@ About
 
 An extension by [Aissac][aissac] that helps translating content in [Radiant CMS][radiant] using the Globalize2 Rails Plugin.
 
-Tested on Radiant 0.8 and 0.9 RC1.
+Requires Radiant >= 0.8. Tested on Radiant 0.9 RC1.
 
 Features
 ---
@@ -27,12 +27,20 @@ Because Globalize2 Extension keeps the settings in the `Radiant::Config` table i
     
 Finally, install Globalize2 Extension
   
-    git clone git://github.com/Aissac/radiant-globalize2.git vendor/extensions/globalize2
+    git clone git://github.com/Aissac/radiant-globalize2-extension.git vendor/extensions/globalize2
 
 Then run the rake tasks:
 
     rake radiant:extensions:globalize2:migrate
     rake radiant:extensions:globalize2:update
+
+###Note
+
+The git branches hold stable versions of the extension for older version of Radiant CMS. To checkout one of these branches:
+
+    git clone git://github.com/Aissac/radiant-globalize2-extension.git vendor/extensions/globalize2
+    cd vendor/extensions/globalize2
+    git checkout -b <branch-name> origin/<remote-branch-name>
 
 Configuration
 ---
