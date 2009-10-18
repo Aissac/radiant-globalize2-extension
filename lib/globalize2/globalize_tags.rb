@@ -38,12 +38,7 @@ module Globalize2
       I18n.locale.to_s
     end
     
-    desc %{
-      Renders one of the passed values based on a global cycle counter.  Use the @reset@
-      attribute to reset the cycle to the beginning.  Use the @name@ attribute to track
-      multiple cycles; the default is @cycle@.
-      
-      
+    desc %{      
       Renders the locales passed in @codes@ attribute. Use the @between@ attribute to specify something between the rendered locale codes.
       
       *Example*
