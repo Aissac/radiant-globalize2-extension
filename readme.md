@@ -8,6 +8,8 @@ An extension by [Aissac][aissac] that helps translating content in [Radiant CMS]
 
 Requires Radiant >= 0.8. Tested on Radiant 0.9 RC1.
 
+Check out a screencast [presenting the extension][rcp] and one on [compatibility issues][rcc]
+
 Features
 ---
 
@@ -15,6 +17,22 @@ Features
 * Provides the ability to translate your snippets and layouts using the Radiant admin interface.
 * Radius tags for accessing the locales and translations.
 * Possibility to completely delete the translation for a page.
+
+Important Notice!
+---
+
+The git branches of this repository hold stable versions of the extension for older versions of Radiant CMS. For example the _0.8_ branch is compatible with Radiant 0.8. 
+
+To checkout one of these branches:
+
+    git clone git://github.com/Aissac/radiant-globalize2-extension.git vendor/extensions/globalize2
+    cd vendor/extensions/globalize2
+    git checkout -b <branch-name> origin/<remote-branch-name>
+
+As an example, if you're working on Radiant 0.8 you will need to checkout the 0.8 branch:
+    
+    cd vendor/extensions/globalize2
+    git checkout -b my_branch origin/0.8
 
 Installation
 ---
@@ -33,14 +51,6 @@ Then run the rake tasks:
 
     rake radiant:extensions:globalize2:migrate
     rake radiant:extensions:globalize2:update
-
-###Note
-
-The git branches hold stable versions of the extension for older version of Radiant CMS. To checkout one of these branches:
-
-    git clone git://github.com/Aissac/radiant-globalize2-extension.git vendor/extensions/globalize2
-    cd vendor/extensions/globalize2
-    git checkout -b <branch-name> origin/<remote-branch-name>
 
 Configuration
 ---
@@ -145,3 +155,5 @@ Contributors
 
 [cd]: http://twitter.com/cristi_duma
 [ih]: http://twitter.com/ihoka
+[rcp]: http://blog.aissac.ro/2009/10/25/episode-2-radiant-globalize2-extension/
+[rcc]: http://blog.aissac.ro/2009/11/02/episode-3-radiant-globalize2-compatibility-issues/
