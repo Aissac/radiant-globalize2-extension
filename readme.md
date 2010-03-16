@@ -8,6 +8,8 @@ An extension by [Aissac][aissac] that helps translating content in [Radiant CMS]
 
 Tested on Radiant 0.8.
 
+Check out a screencast [presenting the extension][rcp] and one on [compatibility issues][rcc].
+
 Features
 ---
 
@@ -131,3 +133,5 @@ Contributors
 [snss]:http://github.com/SwankInnovations/radiant-sns-sass-filter-extension/
 [dbm]:http://github.com/Aissac/radiant-database-mailer-extension/
 [rse]:http://github.com/Aissac/radiant-super-export-extension/tree/master
+[rcp]: http://blog.aissac.ro/2009/10/25/episode-2-radiant-globalize2-extension/
+[rcc]: http://blog.aissac.ro/2009/11/02/episode-3-radiant-globalize2-compatibility-issues/
